@@ -1,5 +1,8 @@
-import type { Dispatcher } from 'undici';
 import type { Collection, Category, Sort } from './constants.js';
+
+export interface RequestOptions {
+  headers?: Record<string, string>;
+}
 
 /**
  * Common options for requests
@@ -9,8 +12,8 @@ export interface BaseOptions {
   country?: string;
   /** Language code (e.g., "en-us") */
   lang?: string;
-  /** Custom request options for undici */
-  requestOptions?: Dispatcher.RequestOptions;
+  /** Custom request options */
+  requestOptions?: RequestOptions;
   /** Rate limit (requests per interval) */
   throttle?: number;
 }

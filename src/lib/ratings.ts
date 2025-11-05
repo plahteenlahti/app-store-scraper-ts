@@ -1,4 +1,3 @@
-import type { Dispatcher } from 'undici';
 import * as cheerio from 'cheerio';
 import type { RatingHistogram } from '../types/app.js';
 import type { RatingsOptions } from '../types/options.js';
@@ -31,7 +30,7 @@ export async function ratings(options: RatingsOptions): Promise<RatingHistogram>
       'X-Apple-Store-Front': `${store},12`,
       ...(requestOptions?.headers || {}),
     },
-  } as Dispatcher.RequestOptions);
+  });
 
   const $ = cheerio.load(body);
 

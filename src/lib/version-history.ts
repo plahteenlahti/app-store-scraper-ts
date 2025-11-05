@@ -1,4 +1,3 @@
-import type { Dispatcher } from 'undici';
 import type { VersionHistory } from '../types/review.js';
 import type { VersionHistoryOptions } from '../types/options.js';
 import { doRequest } from './common.js';
@@ -45,7 +44,7 @@ export async function versionHistory(options: VersionHistoryOptions): Promise<Ve
       Authorization: `Bearer ${token}`,
       ...(requestOptions?.headers || {}),
     },
-  } as Dispatcher.RequestOptions);
+  });
 
   // Parse and validate response with Zod
   const parsedData = JSON.parse(ampBody) as unknown;

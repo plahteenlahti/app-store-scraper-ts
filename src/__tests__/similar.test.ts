@@ -4,7 +4,6 @@ import { similar } from '../lib/similar.js';
 describe('similar', () => {
   it('should throw error when neither id nor appId is provided', async () => {
     await expect(
-      // @ts-expect-error - testing invalid input
       similar({})
     ).rejects.toThrow('Either id or appId is required');
   });
@@ -23,7 +22,7 @@ describe('similar', () => {
       expect(results[0]).toHaveProperty('id');
       expect(results[0]).toHaveProperty('title');
       expect(results[0]).toHaveProperty('appId');
-      expect(results[0].id).not.toBe(842842640); // Should not include the original app
+      expect(results[0]?.id).not.toBe(842842640); // Should not include the original app
     }
   });
 

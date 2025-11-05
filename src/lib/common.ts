@@ -1,26 +1,34 @@
-import { request } from 'undici';
-import type { Dispatcher } from 'undici';
 import type { App } from '../types/app.js';
 import { markets } from '../types/constants.js';
 import {
   iTunesLookupResponseSchema,
   type ITunesAppResponse,
 } from './schemas.js';
+import type { RequestOptions } from '../types/options.js';
 
 /**
  * Makes an HTTP request
  */
-export async function doRequest(url: string, options?: Dispatcher.RequestOptions): Promise<string> {
-  const response = await request(url, {
+export async function doRequest(url: string, options?: RequestOptions): Promise<string> {
+  const defaultHeaders: Record<string, string> = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.9',
+  };
+
+  const response = await fetch(url, {
     method: 'GET',
-    ...options,
+    headers: {
+      ...defaultHeaders,
+      ...(options?.headers || {}),
+    },
   });
 
-  if (response.statusCode >= 400) {
-    throw new Error(`Request failed with status ${response.statusCode}`);
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
-  return response.body.text();
+  return response.text();
 }
 
 /**
@@ -72,7 +80,7 @@ export async function lookup(
   idField: 'id' | 'bundleId' | 'artistId',
   country = 'us',
   lang?: string,
-  requestOptions?: Dispatcher.RequestOptions
+  requestOptions?: RequestOptions
 ): Promise<App[]> {
   const idsArray = Array.isArray(ids) ? ids : [ids];
   const idsString = idsArray.join(',');

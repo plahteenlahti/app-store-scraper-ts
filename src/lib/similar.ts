@@ -30,8 +30,8 @@ export async function similar(options: SimilarOptions): Promise<App[]> {
     throw new Error('Could not resolve app id');
   }
 
-  // Build URL for "Customers Also Bought Apps" page
-  const url = `https://apps.apple.com/${country}/app/app/id${id}?see-all=customers-also-bought-apps&platform=iphone`;
+  // Build URL for main app page (contains similar apps embedded in HTML)
+  const url = `https://apps.apple.com/${country}/app/id${id}`;
 
   let body: string;
   try {
@@ -51,7 +51,9 @@ export async function similar(options: SimilarOptions): Promise<App[]> {
   $('a[href*="/app/"]').each((_, element) => {
     const href = $(element).attr('href');
     if (href) {
-      // Extract ID from URL like "/fi/app/app-name/id123456"
+      // Extract ID from URLs like:
+      // "https://apps.apple.com/us/app/app-name/id123456"
+      // or "/fi/app/app-name/id123456"
       const match = href.match(/\/id(\d+)/);
       if (match && match[1]) {
         const appId = parseInt(match[1], 10);
