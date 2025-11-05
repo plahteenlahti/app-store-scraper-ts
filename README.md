@@ -1,4 +1,4 @@
-# perttu/app-store-scraper
+# @perttu/app-store-scraper
 
 Modern TypeScript library to scrape application data from the iTunes/Mac App Store.
 
