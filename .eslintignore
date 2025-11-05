@@ -1,0 +1,8 @@
+dist/
+node_modules/
+examples/
+temp-original/
+*.config.js
+*.config.cjs
+*.config.ts
+coverage/
