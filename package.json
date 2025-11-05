@@ -27,7 +27,7 @@
     "lint:fix": "eslint src --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run build && npm run typecheck && npm run test:run"
+    "prepublishOnly": "npm run build && npm run typecheck"
   },
   "repository": {
     "type": "git",

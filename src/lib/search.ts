@@ -51,7 +51,7 @@ export async function search(options: SearchOptions): Promise<App[] | number[]> 
   } as Dispatcher.RequestOptions);
 
   // Parse and validate response with Zod
-  const parsedData = JSON.parse(body);
+  const parsedData: unknown = JSON.parse(body);
   const validationResult = searchResponseSchema.safeParse(parsedData);
 
   if (!validationResult.success) {
