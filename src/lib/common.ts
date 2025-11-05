@@ -28,10 +28,10 @@ export async function doRequest(url: string, options?: Dispatcher.RequestOptions
  */
 export function cleanApp(app: ITunesAppResponse): App {
   return {
-    id: app.trackId,
-    appId: app.bundleId,
-    title: app.trackName,
-    url: app.trackViewUrl,
+    id: app.trackId || 0,
+    appId: app.bundleId || '',
+    title: app.trackName || '',
+    url: app.trackViewUrl || '',
     description: app.description || '',
     icon: app.artworkUrl512 || app.artworkUrl100 || '',
     genres: app.genres || [],
@@ -77,8 +77,12 @@ export async function lookup(
   const idsArray = Array.isArray(ids) ? ids : [ids];
   const idsString = idsArray.join(',');
 
+  // Map idField to the correct URL parameter name
+  // artistId should use 'id' parameter, not 'artistId'
+  const paramName = idField === 'artistId' ? 'id' : idField;
+
   const params = new URLSearchParams({
-    [idField]: idsString,
+    [paramName]: idsString,
     country,
     entity: 'software',
   });
@@ -102,8 +106,10 @@ export async function lookup(
   const response = validationResult.data;
 
   // Filter to only software and clean the results
+  // The response may include artist records (wrapperType: "artist") and app records
+  // We only want apps, which have kind === 'software' or wrapperType === 'software'
   return response.results
-    .filter((app) => app.kind === 'software')
+    .filter((app) => app.kind === 'software' || app.wrapperType === 'software')
     .map((app) => cleanApp(app));
 }
 

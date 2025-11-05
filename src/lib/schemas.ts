@@ -7,10 +7,12 @@ import { z } from 'zod';
  * iTunes API app response schema
  */
 export const iTunesAppResponseSchema = z.object({
-  trackId: z.number(),
-  bundleId: z.string(),
-  trackName: z.string(),
-  trackViewUrl: z.string(),
+  wrapperType: z.string().optional(),
+  kind: z.string().optional(),
+  trackId: z.number().optional(),
+  bundleId: z.string().optional(),
+  trackName: z.string().optional(),
+  trackViewUrl: z.string().optional(),
   description: z.string().optional(),
   artworkUrl512: z.string().optional(),
   artworkUrl100: z.string().optional(),
@@ -40,8 +42,7 @@ export const iTunesAppResponseSchema = z.object({
   ipadScreenshotUrls: z.array(z.string()).optional(),
   appletvScreenshotUrls: z.array(z.string()).optional(),
   supportedDevices: z.array(z.string()).optional(),
-  kind: z.string().optional(),
-});
+}).passthrough();
 
 export type ITunesAppResponse = z.infer<typeof iTunesAppResponseSchema>;
 

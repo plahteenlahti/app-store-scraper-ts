@@ -107,9 +107,9 @@ async function testAllMethods() {
     // 4. developer() - Get all apps from a developer
     console.log('\n4️⃣  Testing developer() method...');
     console.log(line);
-    // King (Candy Crush developer) - devId: 526656015
-    const devApps = await developer({ devId: 526656015 });
-    console.log(`✅ Found ${devApps.length} apps from King:`);
+    // Google - devId: 281956209
+    const devApps = await developer({ devId: 281956209 });
+    console.log(`✅ Found ${devApps.length} apps from Google:`);
     devApps.slice(0, 5).forEach((app, i) => {
       console.log(`   ${i + 1}. ${app.title}`);
     });
